@@ -34,7 +34,7 @@ export class SalesRecommendationEngine {
    */
   static generateRealtimeRecommendation(
     selectedTags: CustomerTags,
-    customerProfile?: Partial<CustomerProfile>
+    _customerProfile?: Partial<CustomerProfile>
   ): {
     tips: string[];
     script: string;
@@ -377,7 +377,7 @@ export class SalesRecommendationEngine {
   }
 
   private static generateValuePropositionScript(
-    customer: CustomerProfile,
+    _customer: CustomerProfile,
     analysis: ReturnType<typeof this.analyzeCustomer>
   ): ScriptRecommendation {
     const scripts = [];
@@ -461,7 +461,7 @@ export class SalesRecommendationEngine {
    */
   private static recommendProducts(
     customer: CustomerProfile,
-    analysis: ReturnType<typeof this.analyzeCustomer>
+    _analysis: ReturnType<typeof this.analyzeCustomer>
   ) {
     const products = [];
 

@@ -2,7 +2,7 @@
  * 应用主入口 - 展示两个页面的使用示例
  */
 
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { ConfigProvider, Tabs, Button } from 'antd';
 import zhCN from 'antd/locale/zh_CN';
 import { CustomerDetailPage } from './components/DetailPage/CustomerDetailPage';
