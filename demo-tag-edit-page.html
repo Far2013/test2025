@@ -24,9 +24,11 @@
         .modal {
             background: white;
             border-radius: 8px;
-            width: 800px;
+            width: 1200px;
+            max-width: 95vw;
             max-height: 90vh;
-            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
             box-shadow: 0 4px 16px rgba(0,0,0,0.2);
         }
 
@@ -52,131 +54,54 @@
         }
 
         .modal-body {
-            padding: 16px 24px;
+            display: flex;
+            flex: 1;
+            overflow: hidden;
         }
 
-        .assistant-panel {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            border-radius: 8px;
-            padding: 12px 16px;
-            margin-bottom: 16px;
+        .left-panel {
+            flex: 1;
+            padding: 16px 24px;
+            overflow-y: auto;
+            border-right: 1px solid #e8e8e8;
+        }
+
+        .right-panel {
+            width: 380px;
+            background: #f5f5f5;
+            padding: 16px;
+            overflow-y: auto;
         }
 
         .assistant-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
-            margin-bottom: 12px;
-        }
-
-        .assistant-title {
+            padding: 12px;
+            border-radius: 8px;
+            text-align: center;
+            margin-bottom: 16px;
+            font-weight: 600;
             font-size: 15px;
-            font-weight: 600;
         }
 
-        .expand-btn {
-            background: rgba(255,255,255,0.2);
-            border: none;
-            color: white;
-            padding: 4px 12px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 12px;
+        .card {
+            background: white;
+            border: 1px solid #e8e8e8;
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 16px;
         }
 
-        .assistant-content {
-            display: block;
-        }
-
-        .assistant-content.collapsed {
-            display: none;
-        }
-
-        .selected-tags-box {
-            background: rgba(255,255,255,0.95);
-            padding: 8px 12px;
-            border-radius: 4px;
-            margin-bottom: 12px;
-        }
-
-        .selected-tags-label {
-            font-size: 12px;
-            color: #8c8c8c;
-            margin-bottom: 4px;
-        }
-
-        .warning-box {
-            background: #fff7e6;
-            border: 1px solid #ffd591;
-            padding: 8px 12px;
-            border-radius: 4px;
-            margin-bottom: 12px;
-        }
-
-        .warning-icon {
-            color: #fa8c16;
-            margin-right: 4px;
-        }
-
-        .tips-box {
-            background: rgba(255,255,255,0.95);
-            padding: 12px;
-            border-radius: 4px;
-            margin-bottom: 12px;
-        }
-
-        .tips-title {
-            font-size: 13px;
-            font-weight: 600;
-            margin-bottom: 8px;
-            display: flex;
-            align-items: center;
-        }
-
-        .script-box {
-            background: rgba(255,255,255,0.95);
-            padding: 12px;
-            border-radius: 4px;
-            margin-bottom: 12px;
-        }
-
-        .script-title {
+        .card-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            font-size: 13px;
+            margin-bottom: 12px;
+        }
+
+        .card-title {
+            font-size: 14px;
             font-weight: 600;
-            margin-bottom: 8px;
-        }
-
-        .script-content {
-            background: #f0f5ff;
-            padding: 12px;
-            border-radius: 4px;
-            font-size: 13px;
-            line-height: 1.6;
-        }
-
-        .quick-scripts {
-            display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
-        }
-
-        .quick-btn {
-            padding: 6px 12px;
-            background: rgba(255,255,255,0.95);
-            border: 1px solid rgba(255,255,255,0.5);
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 12px;
-            transition: all 0.3s;
-        }
-
-        .quick-btn:hover {
-            background: white;
-            border-color: white;
         }
 
         .tag {
@@ -202,26 +127,6 @@
             border-color: #1890ff;
         }
 
-        .card {
-            background: white;
-            border: 1px solid #e8e8e8;
-            border-radius: 8px;
-            padding: 16px;
-            margin-bottom: 16px;
-        }
-
-        .card-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 12px;
-        }
-
-        .card-title {
-            font-size: 14px;
-            font-weight: 600;
-        }
-
         .tag-group {
             margin-bottom: 16px;
         }
@@ -234,7 +139,7 @@
 
         .textarea {
             width: 100%;
-            min-height: 100px;
+            min-height: 80px;
             padding: 12px;
             border: 1px solid #d9d9d9;
             border-radius: 4px;
@@ -266,6 +171,112 @@
             color: white;
         }
 
+        .clear-btn {
+            font-size: 12px;
+            color: #1890ff;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        .count {
+            font-size: 12px;
+            color: #8c8c8c;
+        }
+
+        .selected-tags-box {
+            background: white;
+            padding: 12px;
+            border-radius: 4px;
+            margin-bottom: 12px;
+            border: 1px solid #e8e8e8;
+        }
+
+        .selected-tags-label {
+            font-size: 12px;
+            color: #8c8c8c;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .warning-box {
+            background: #fff7e6;
+            border: 1px solid #ffd591;
+            padding: 12px;
+            border-radius: 4px;
+            margin-bottom: 12px;
+        }
+
+        .warning-icon {
+            color: #fa8c16;
+            margin-right: 4px;
+        }
+
+        .tips-box {
+            background: white;
+            padding: 12px;
+            border-radius: 4px;
+            margin-bottom: 12px;
+            border: 1px solid #e8e8e8;
+        }
+
+        .tips-title {
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            color: #262626;
+        }
+
+        .script-box {
+            background: white;
+            padding: 12px;
+            border-radius: 4px;
+            margin-bottom: 12px;
+            border: 1px solid #e8e8e8;
+        }
+
+        .script-title {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #262626;
+        }
+
+        .script-content {
+            background: #f0f5ff;
+            padding: 12px;
+            border-radius: 4px;
+            font-size: 13px;
+            line-height: 1.6;
+            border-left: 3px solid #1890ff;
+        }
+
+        .quick-scripts {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .quick-btn {
+            padding: 6px 12px;
+            background: white;
+            border: 1px solid #d9d9d9;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: all 0.3s;
+        }
+
+        .quick-btn:hover {
+            border-color: #1890ff;
+            color: #1890ff;
+        }
+
         ul {
             list-style: none;
             padding-left: 20px;
@@ -281,28 +292,33 @@
             content: "•";
             position: absolute;
             left: -15px;
+            color: #1890ff;
         }
 
         .copy-btn {
             padding: 4px 12px;
             background: white;
-            border: 1px solid rgba(0,0,0,0.1);
+            border: 1px solid #d9d9d9;
             border-radius: 4px;
             cursor: pointer;
             font-size: 12px;
+            transition: all 0.3s;
         }
 
-        .clear-btn {
-            font-size: 12px;
+        .copy-btn:hover {
+            border-color: #1890ff;
             color: #1890ff;
-            background: none;
-            border: none;
-            cursor: pointer;
         }
 
-        .count {
-            font-size: 12px;
-            color: #8c8c8c;
+        .section-divider {
+            height: 1px;
+            background: #e8e8e8;
+            margin: 12px 0;
+        }
+
+        .tag.tag-small {
+            font-size: 11px;
+            padding: 2px 6px;
         }
     </style>
 </head>
@@ -314,53 +330,178 @@
         </div>
 
         <div class="modal-body">
-            <!-- 实时话术助手 -->
-            <div class="assistant-panel">
-                <div class="assistant-header">
-                    <div class="assistant-title">⚡ 💬 实时话术助手</div>
-                    <button class="expand-btn" onclick="toggleAssistant()">收起</button>
+            <!-- 左侧：标签选择区 -->
+            <div class="left-panel">
+                <!-- 线索打标 -->
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">线索打标 <span class="count">(已选 <span id="selectedCount">5</span>/59)</span></div>
+                        <button class="clear-btn" onclick="clearAll()">清空</button>
+                    </div>
+
+                    <div class="tag-group">
+                        <div class="tag-group-title">用户等级</div>
+                        <div id="userLevel">
+                            <span class="tag" onclick="toggleTag(this, 'userLevel')">S级</span>
+                            <span class="tag" onclick="toggleTag(this, 'userLevel')">A级</span>
+                            <span class="tag" onclick="toggleTag(this, 'userLevel')">B级</span>
+                            <span class="tag" onclick="toggleTag(this, 'userLevel')">C级</span>
+                            <span class="tag" onclick="toggleTag(this, 'userLevel')">D级</span>
+                            <span class="tag selected" onclick="toggleTag(this, 'userLevel')">E级</span>
+                            <span class="tag" onclick="toggleTag(this, 'userLevel')">等级未确定</span>
+                        </div>
+                    </div>
+
+                    <div class="tag-group">
+                        <div class="tag-group-title">意愿标签</div>
+                        <div id="intention">
+                            <span class="tag" onclick="toggleTag(this, 'intention')">有意向</span>
+                            <span class="tag" onclick="toggleTag(this, 'intention')">无意向-开场日秒挂</span>
+                            <span class="tag" onclick="toggleTag(this, 'intention')">无意向-未申请</span>
+                            <span class="tag" onclick="toggleTag(this, 'intention')">无意向-不需要</span>
+                            <span class="tag selected" onclick="toggleTag(this, 'intention')">无意向-其他</span>
+                            <span class="tag" onclick="toggleTag(this, 'intention')">未接通-停机</span>
+                            <span class="tag" onclick="toggleTag(this, 'intention')">未接通</span>
+                            <span class="tag" onclick="toggleTag(this, 'intention')">无意向-不接受线下</span>
+                        </div>
+                    </div>
+
+                    <div class="tag-group">
+                        <div class="tag-group-title">房产标签</div>
+                        <div id="property">
+                            <span class="tag" onclick="toggleTag(this, 'property')">全款房</span>
+                            <span class="tag" onclick="toggleTag(this, 'property')">按揭房</span>
+                            <span class="tag" onclick="toggleTag(this, 'property')">抵押房</span>
+                            <span class="tag" onclick="toggleTag(this, 'property')">政策房</span>
+                            <span class="tag" onclick="toggleTag(this, 'property')">商业房</span>
+                            <span class="tag" onclick="toggleTag(this, 'property')">异地房</span>
+                            <span class="tag" onclick="toggleTag(this, 'property')">自建房</span>
+                            <span class="tag selected" onclick="toggleTag(this, 'property')">无房</span>
+                            <span class="tag" onclick="toggleTag(this, 'property')">房产未确认</span>
+                        </div>
+                    </div>
+
+                    <div class="tag-group">
+                        <div class="tag-group-title">车产标签</div>
+                        <div id="vehicle">
+                            <span class="tag" onclick="toggleTag(this, 'vehicle')">全款车</span>
+                            <span class="tag" onclick="toggleTag(this, 'vehicle')">按揭车</span>
+                            <span class="tag" onclick="toggleTag(this, 'vehicle')">抵押车</span>
+                            <span class="tag" onclick="toggleTag(this, 'vehicle')">背户车</span>
+                            <span class="tag" onclick="toggleTag(this, 'vehicle')">异地车</span>
+                            <span class="tag selected" onclick="toggleTag(this, 'vehicle')">无车</span>
+                            <span class="tag" onclick="toggleTag(this, 'vehicle')">车产未确认</span>
+                        </div>
+                    </div>
+
+                    <div class="tag-group">
+                        <div class="tag-group-title">征信标签</div>
+                        <div id="credit">
+                            <span class="tag" onclick="toggleTag(this, 'credit')">无逾期</span>
+                            <span class="tag selected" onclick="toggleTag(this, 'credit')">当前逾期</span>
+                            <span class="tag" onclick="toggleTag(this, 'credit')">逾期少</span>
+                            <span class="tag" onclick="toggleTag(this, 'credit')">逾期多</span>
+                            <span class="tag" onclick="toggleTag(this, 'credit')">黑户&呆账</span>
+                            <span class="tag" onclick="toggleTag(this, 'credit')">查询多</span>
+                            <span class="tag" onclick="toggleTag(this, 'credit')">征信未确认</span>
+                        </div>
+                    </div>
+
+                    <div class="tag-group">
+                        <div class="tag-group-title">职业标签</div>
+                        <div id="occupation">
+                            <span class="tag" onclick="toggleTag(this, 'occupation')">企业主</span>
+                            <span class="tag" onclick="toggleTag(this, 'occupation')">个体户</span>
+                            <span class="tag" onclick="toggleTag(this, 'occupation')">其他</span>
+                            <span class="tag" onclick="toggleTag(this, 'occupation')">上班族-有公积金或有个税</span>
+                            <span class="tag" onclick="toggleTag(this, 'occupation')">上班族-无公积金无个税</span>
+                            <span class="tag" onclick="toggleTag(this, 'occupation')">无业</span>
+                            <span class="tag" onclick="toggleTag(this, 'occupation')">职业未确认</span>
+                        </div>
+                    </div>
+
+                    <div class="tag-group">
+                        <div class="tag-group-title">加微标签</div>
+                        <div id="wechat">
+                            <span class="tag" onclick="toggleTag(this, 'wechat')">已加微</span>
+                            <span class="tag" onclick="toggleTag(this, 'wechat')">未加微</span>
+                        </div>
+                    </div>
+
+                    <div class="tag-group">
+                        <div class="tag-group-title">其他标签</div>
+                        <div id="other">
+                            <span class="tag" onclick="toggleTag(this, 'other')">无</span>
+                            <span class="tag" onclick="toggleTag(this, 'other')">独自借款</span>
+                            <span class="tag" onclick="toggleTag(this, 'other')">有诉讼</span>
+                            <span class="tag" onclick="toggleTag(this, 'other')">贷款不符</span>
+                            <span class="tag" onclick="toggleTag(this, 'other')">异地客户</span>
+                            <span class="tag" onclick="toggleTag(this, 'other')">重点客户</span>
+                            <span class="tag" onclick="toggleTag(this, 'other')">MGM/亲属办理</span>
+                            <span class="tag" onclick="toggleTag(this, 'other')">不接受线下</span>
+                        </div>
+                    </div>
                 </div>
 
-                <div class="assistant-content" id="assistantContent">
-                    <div class="selected-tags-box">
-                        <div class="selected-tags-label">已选标签：</div>
-                        <div id="selectedTagsDisplay">
-                            <span class="tag selected">E级</span>
-                            <span class="tag selected">无意向-其他</span>
-                            <span class="tag selected">无房</span>
-                            <span class="tag selected">无车</span>
-                            <span class="tag selected">当前逾期</span>
-                        </div>
-                    </div>
+                <!-- 跟进记录 -->
+                <div class="card">
+                    <div class="card-title">* 跟进记录:</div>
+                    <textarea class="textarea" placeholder="请输入详细跟进情况" maxlength="500"></textarea>
+                </div>
+            </div>
 
-                    <div class="warning-box" id="warningBox">
-                        <div style="font-size: 13px;">
-                            <span class="warning-icon">⚠️</span>
-                            <span id="warningText">征信问题可能影响审批，需提前说明</span>
-                        </div>
-                    </div>
+            <!-- 右侧：实时话术助手 -->
+            <div class="right-panel">
+                <div class="assistant-header">
+                    ⚡ 实时话术助手
+                </div>
 
-                    <div class="tips-box">
-                        <div class="tips-title">💡 当前建议</div>
-                        <ul id="tipsList">
-                            <li>⚠️ 征信有逾期，需谨慎处理</li>
-                            <li>了解逾期原因和是否已结清</li>
-                            <li>可推荐容忍度较高的产品</li>
-                            <li>无资产情况，推荐信用贷产品</li>
-                            <li>客户等级较低，投入成本需权衡</li>
-                        </ul>
+                <!-- 已选标签 -->
+                <div class="selected-tags-box">
+                    <div class="selected-tags-label">已选标签</div>
+                    <div id="selectedTagsDisplay">
+                        <span class="tag tag-small selected">E级</span>
+                        <span class="tag tag-small selected">无意向-其他</span>
+                        <span class="tag tag-small selected">无房</span>
+                        <span class="tag tag-small selected">无车</span>
+                        <span class="tag tag-small selected">当前逾期</span>
                     </div>
+                </div>
 
-                    <div class="script-box">
-                        <div class="script-title">
-                            <span>📝 推荐话术</span>
-                            <button class="copy-btn" onclick="copyScript()">复制</button>
-                        </div>
-                        <div class="script-content" id="scriptContent">
-                            "关于征信逾期的问题，我需要了解一下具体情况。请问逾期金额大概多少？现在结清了吗？逾期的原因是什么？"
-                        </div>
+                <!-- 警告框 -->
+                <div class="warning-box" id="warningBox">
+                    <div style="font-size: 13px;">
+                        <span class="warning-icon">⚠️</span>
+                        <span id="warningText">征信问题可能影响审批，需提前说明</span>
                     </div>
+                </div>
 
+                <!-- 当前建议 -->
+                <div class="tips-box">
+                    <div class="tips-title">💡 当前建议</div>
+                    <ul id="tipsList">
+                        <li>⚠️ 征信有逾期，需谨慎处理</li>
+                        <li>了解逾期原因和是否已结清</li>
+                        <li>可推荐容忍度较高的产品</li>
+                        <li>无资产情况，推荐信用贷产品</li>
+                        <li>客户等级较低，投入成本需权衡</li>
+                    </ul>
+                </div>
+
+                <!-- 推荐话术 -->
+                <div class="script-box">
+                    <div class="script-title">
+                        <span>📝 推荐话术</span>
+                        <button class="copy-btn" onclick="copyScript()">复制</button>
+                    </div>
+                    <div class="script-content" id="scriptContent">
+                        "关于征信逾期的问题，我需要了解一下具体情况。请问逾期金额大概多少？现在结清了吗？逾期的原因是什么？"
+                    </div>
+                </div>
+
+                <!-- 快捷话术 -->
+                <div class="card">
+                    <div class="card-title" style="margin-bottom: 8px;">⚡ 快捷话术</div>
                     <div class="quick-scripts">
                         <button class="quick-btn" onclick="useQuickScript('询问顾虑')">询问顾虑</button>
                         <button class="quick-btn" onclick="useQuickScript('询问需求')">询问需求</button>
@@ -368,123 +509,6 @@
                         <button class="quick-btn" onclick="useQuickScript('促成话术')">促成话术</button>
                     </div>
                 </div>
-            </div>
-
-            <!-- 线索打标 -->
-            <div class="card">
-                <div class="card-header">
-                    <div class="card-title">线索打标 <span class="count">(已选 <span id="selectedCount">5</span>/59)</span></div>
-                    <button class="clear-btn" onclick="clearAll()">清空</button>
-                </div>
-
-                <div class="tag-group">
-                    <div class="tag-group-title">用户等级</div>
-                    <div id="userLevel">
-                        <span class="tag" onclick="toggleTag(this, 'userLevel')">S级</span>
-                        <span class="tag" onclick="toggleTag(this, 'userLevel')">A级</span>
-                        <span class="tag" onclick="toggleTag(this, 'userLevel')">B级</span>
-                        <span class="tag" onclick="toggleTag(this, 'userLevel')">C级</span>
-                        <span class="tag" onclick="toggleTag(this, 'userLevel')">D级</span>
-                        <span class="tag selected" onclick="toggleTag(this, 'userLevel')">E级</span>
-                        <span class="tag" onclick="toggleTag(this, 'userLevel')">等级未确定</span>
-                    </div>
-                </div>
-
-                <div class="tag-group">
-                    <div class="tag-group-title">意愿标签</div>
-                    <div id="intention">
-                        <span class="tag" onclick="toggleTag(this, 'intention')">有意向</span>
-                        <span class="tag" onclick="toggleTag(this, 'intention')">无意向-开场日秒挂</span>
-                        <span class="tag" onclick="toggleTag(this, 'intention')">无意向-未申请</span>
-                        <span class="tag" onclick="toggleTag(this, 'intention')">无意向-不需要</span>
-                        <span class="tag selected" onclick="toggleTag(this, 'intention')">无意向-其他</span>
-                        <span class="tag" onclick="toggleTag(this, 'intention')">未接通-停机</span>
-                        <span class="tag" onclick="toggleTag(this, 'intention')">未接通</span>
-                        <span class="tag" onclick="toggleTag(this, 'intention')">无意向-不接受线下</span>
-                    </div>
-                </div>
-
-                <div class="tag-group">
-                    <div class="tag-group-title">房产标签</div>
-                    <div id="property">
-                        <span class="tag" onclick="toggleTag(this, 'property')">全款房</span>
-                        <span class="tag" onclick="toggleTag(this, 'property')">按揭房</span>
-                        <span class="tag" onclick="toggleTag(this, 'property')">抵押房</span>
-                        <span class="tag" onclick="toggleTag(this, 'property')">政策房</span>
-                        <span class="tag" onclick="toggleTag(this, 'property')">商业房</span>
-                        <span class="tag" onclick="toggleTag(this, 'property')">异地房</span>
-                        <span class="tag" onclick="toggleTag(this, 'property')">自建房</span>
-                        <span class="tag selected" onclick="toggleTag(this, 'property')">无房</span>
-                        <span class="tag" onclick="toggleTag(this, 'property')">房产未确认</span>
-                    </div>
-                </div>
-
-                <div class="tag-group">
-                    <div class="tag-group-title">车产标签</div>
-                    <div id="vehicle">
-                        <span class="tag" onclick="toggleTag(this, 'vehicle')">全款车</span>
-                        <span class="tag" onclick="toggleTag(this, 'vehicle')">按揭车</span>
-                        <span class="tag" onclick="toggleTag(this, 'vehicle')">抵押车</span>
-                        <span class="tag" onclick="toggleTag(this, 'vehicle')">背户车</span>
-                        <span class="tag" onclick="toggleTag(this, 'vehicle')">异地车</span>
-                        <span class="tag selected" onclick="toggleTag(this, 'vehicle')">无车</span>
-                        <span class="tag" onclick="toggleTag(this, 'vehicle')">车产未确认</span>
-                    </div>
-                </div>
-
-                <div class="tag-group">
-                    <div class="tag-group-title">征信标签</div>
-                    <div id="credit">
-                        <span class="tag" onclick="toggleTag(this, 'credit')">无逾期</span>
-                        <span class="tag selected" onclick="toggleTag(this, 'credit')">当前逾期</span>
-                        <span class="tag" onclick="toggleTag(this, 'credit')">逾期少</span>
-                        <span class="tag" onclick="toggleTag(this, 'credit')">逾期多</span>
-                        <span class="tag" onclick="toggleTag(this, 'credit')">黑户&呆账</span>
-                        <span class="tag" onclick="toggleTag(this, 'credit')">查询多</span>
-                        <span class="tag" onclick="toggleTag(this, 'credit')">征信未确认</span>
-                    </div>
-                </div>
-
-                <div class="tag-group">
-                    <div class="tag-group-title">职业标签</div>
-                    <div id="occupation">
-                        <span class="tag" onclick="toggleTag(this, 'occupation')">企业主</span>
-                        <span class="tag" onclick="toggleTag(this, 'occupation')">个体户</span>
-                        <span class="tag" onclick="toggleTag(this, 'occupation')">其他</span>
-                        <span class="tag" onclick="toggleTag(this, 'occupation')">上班族-有公积金或有个税</span>
-                        <span class="tag" onclick="toggleTag(this, 'occupation')">上班族-无公积金无个税</span>
-                        <span class="tag" onclick="toggleTag(this, 'occupation')">无业</span>
-                        <span class="tag" onclick="toggleTag(this, 'occupation')">职业未确认</span>
-                    </div>
-                </div>
-
-                <div class="tag-group">
-                    <div class="tag-group-title">加微标签</div>
-                    <div id="wechat">
-                        <span class="tag" onclick="toggleTag(this, 'wechat')">已加微</span>
-                        <span class="tag" onclick="toggleTag(this, 'wechat')">未加微</span>
-                    </div>
-                </div>
-
-                <div class="tag-group">
-                    <div class="tag-group-title">其他标签</div>
-                    <div id="other">
-                        <span class="tag" onclick="toggleTag(this, 'other')">无</span>
-                        <span class="tag" onclick="toggleTag(this, 'other')">独自借款</span>
-                        <span class="tag" onclick="toggleTag(this, 'other')">有诉讼</span>
-                        <span class="tag" onclick="toggleTag(this, 'other')">贷款不符</span>
-                        <span class="tag" onclick="toggleTag(this, 'other')">异地客户</span>
-                        <span class="tag" onclick="toggleTag(this, 'other')">重点客户</span>
-                        <span class="tag" onclick="toggleTag(this, 'other')">MGM/亲属办理</span>
-                        <span class="tag" onclick="toggleTag(this, 'other')">不接受线下</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- 跟进记录 -->
-            <div class="card">
-                <div class="card-title">* 跟进记录:</div>
-                <textarea class="textarea" placeholder="请输入详细跟进情况" maxlength="500"></textarea>
             </div>
         </div>
 
@@ -573,24 +597,32 @@
         function getSelectedTags() {
             const tags = [];
             document.querySelectorAll('.tag.selected').forEach(tag => {
-                tags.push(tag.textContent);
+                const text = tag.textContent.trim();
+                // 排除右侧的小标签
+                if (!tag.classList.contains('tag-small')) {
+                    tags.push(text);
+                }
             });
             return tags;
         }
 
         function updateSelectedCount() {
-            const count = document.querySelectorAll('.tag.selected').length;
+            const count = getSelectedTags().length;
             document.getElementById('selectedCount').textContent = count;
         }
 
         function updateSelectedTagsDisplay() {
             const selected = getSelectedTags();
             const display = document.getElementById('selectedTagsDisplay');
-            display.innerHTML = selected.map(tag => `<span class="tag selected">${tag}</span>`).join('');
+            if (selected.length > 0) {
+                display.innerHTML = selected.map(tag => `<span class="tag tag-small selected">${tag}</span>`).join('');
+            } else {
+                display.innerHTML = '<span style="color: #8c8c8c; font-size: 12px;">暂无选择</span>';
+            }
         }
 
         function clearAll() {
-            document.querySelectorAll('.tag.selected').forEach(tag => {
+            document.querySelectorAll('.left-panel .tag.selected').forEach(tag => {
                 tag.classList.remove('selected');
             });
             updateRecommendation();
@@ -598,34 +630,35 @@
             updateSelectedTagsDisplay();
         }
 
-        function toggleAssistant() {
-            const content = document.getElementById('assistantContent');
-            const btn = event.target;
-            if (content.classList.contains('collapsed')) {
-                content.classList.remove('collapsed');
-                btn.textContent = '收起';
-            } else {
-                content.classList.add('collapsed');
-                btn.textContent = '展开';
-            }
-        }
-
         function copyScript() {
             const script = document.getElementById('scriptContent').textContent;
             navigator.clipboard.writeText(script).then(() => {
-                alert('话术已复制！');
+                const btn = event.target;
+                const originalText = btn.textContent;
+                btn.textContent = '已复制!';
+                btn.style.background = '#52c41a';
+                btn.style.color = 'white';
+                btn.style.borderColor = '#52c41a';
+                setTimeout(() => {
+                    btn.textContent = originalText;
+                    btn.style.background = 'white';
+                    btn.style.color = '';
+                    btn.style.borderColor = '#d9d9d9';
+                }, 2000);
             });
         }
 
         function useQuickScript(type) {
             const script = quickScripts[type];
-            alert(`已复制快捷话术：\n${script}`);
-            navigator.clipboard.writeText(script);
+            navigator.clipboard.writeText(script).then(() => {
+                alert(`已复制快捷话术：\n${script}`);
+            });
         }
 
         // 初始化
         updateSelectedCount();
         updateRecommendation();
+        updateSelectedTagsDisplay();
     </script>
 </body>
 </html>
