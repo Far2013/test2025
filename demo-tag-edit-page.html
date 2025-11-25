@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>跟进信息编辑 - 实时话术助手演示</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+            background: rgba(0,0,0,0.5);
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .modal {
+            background: white;
+            border-radius: 8px;
+            width: 800px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+        }
+
+        .modal-header {
+            padding: 16px 24px;
+            border-bottom: 1px solid #e8e8e8;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-title {
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+            color: #8c8c8c;
+        }
+
+        .modal-body {
+            padding: 16px 24px;
+        }
+
+        .assistant-panel {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 8px;
+            padding: 12px 16px;
+            margin-bottom: 16px;
+        }
+
+        .assistant-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: white;
+            margin-bottom: 12px;
+        }
+
+        .assistant-title {
+            font-size: 15px;
+            font-weight: 600;
+        }
+
+        .expand-btn {
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+
+        .assistant-content {
+            display: block;
+        }
+
+        .assistant-content.collapsed {
+            display: none;
+        }
+
+        .selected-tags-box {
+            background: rgba(255,255,255,0.95);
+            padding: 8px 12px;
+            border-radius: 4px;
+            margin-bottom: 12px;
+        }
+
+        .selected-tags-label {
+            font-size: 12px;
+            color: #8c8c8c;
+            margin-bottom: 4px;
+        }
+
+        .warning-box {
+            background: #fff7e6;
+            border: 1px solid #ffd591;
+            padding: 8px 12px;
+            border-radius: 4px;
+            margin-bottom: 12px;
+        }
+
+        .warning-icon {
+            color: #fa8c16;
+            margin-right: 4px;
+        }
+
+        .tips-box {
+            background: rgba(255,255,255,0.95);
+            padding: 12px;
+            border-radius: 4px;
+            margin-bottom: 12px;
+        }
+
+        .tips-title {
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+        }
+
+        .script-box {
+            background: rgba(255,255,255,0.95);
+            padding: 12px;
+            border-radius: 4px;
+            margin-bottom: 12px;
+        }
+
+        .script-title {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .script-content {
+            background: #f0f5ff;
+            padding: 12px;
+            border-radius: 4px;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        .quick-scripts {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .quick-btn {
+            padding: 6px 12px;
+            background: rgba(255,255,255,0.95);
+            border: 1px solid rgba(255,255,255,0.5);
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: all 0.3s;
+        }
+
+        .quick-btn:hover {
+            background: white;
+            border-color: white;
+        }
+
+        .tag {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            margin: 4px 4px 4px 0;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 1px solid #d9d9d9;
+            background: white;
+        }
+
+        .tag.selected {
+            background: #1890ff;
+            color: white;
+            border-color: #1890ff;
+            font-weight: 600;
+        }
+
+        .tag:hover {
+            border-color: #1890ff;
+        }
+
+        .card {
+            background: white;
+            border: 1px solid #e8e8e8;
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 16px;
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .card-title {
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .tag-group {
+            margin-bottom: 16px;
+        }
+
+        .tag-group-title {
+            font-size: 12px;
+            color: #8c8c8c;
+            margin-bottom: 8px;
+        }
+
+        .textarea {
+            width: 100%;
+            min-height: 100px;
+            padding: 12px;
+            border: 1px solid #d9d9d9;
+            border-radius: 4px;
+            font-family: inherit;
+            font-size: 13px;
+            resize: vertical;
+        }
+
+        .modal-footer {
+            padding: 16px 24px;
+            border-top: 1px solid #e8e8e8;
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+        }
+
+        .btn {
+            padding: 8px 16px;
+            border-radius: 4px;
+            border: 1px solid #d9d9d9;
+            background: white;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .btn-primary {
+            background: #1890ff;
+            border-color: #1890ff;
+            color: white;
+        }
+
+        ul {
+            list-style: none;
+            padding-left: 20px;
+        }
+
+        ul li {
+            position: relative;
+            padding: 4px 0;
+            font-size: 13px;
+        }
+
+        ul li:before {
+            content: "•";
+            position: absolute;
+            left: -15px;
+        }
+
+        .copy-btn {
+            padding: 4px 12px;
+            background: white;
+            border: 1px solid rgba(0,0,0,0.1);
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+
+        .clear-btn {
+            font-size: 12px;
+            color: #1890ff;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        .count {
+            font-size: 12px;
+            color: #8c8c8c;
+        }
+    </style>
+</head>
+<body>
+    <div class="modal">
+        <div class="modal-header">
+            <div class="modal-title">编辑跟进信息</div>
+            <button class="close-btn">×</button>
+        </div>
+
+        <div class="modal-body">
+            <!-- 实时话术助手 -->
+            <div class="assistant-panel">
+                <div class="assistant-header">
+                    <div class="assistant-title">⚡ 💬 实时话术助手</div>
+                    <button class="expand-btn" onclick="toggleAssistant()">收起</button>
+                </div>
+
+                <div class="assistant-content" id="assistantContent">
+                    <div class="selected-tags-box">
+                        <div class="selected-tags-label">已选标签：</div>
+                        <div id="selectedTagsDisplay">
+                            <span class="tag selected">E级</span>
+                            <span class="tag selected">无意向-其他</span>
+                            <span class="tag selected">无房</span>
+                            <span class="tag selected">无车</span>
+                            <span class="tag selected">当前逾期</span>
+                        </div>
+                    </div>
+
+                    <div class="warning-box" id="warningBox">
+                        <div style="font-size: 13px;">
+                            <span class="warning-icon">⚠️</span>
+                            <span id="warningText">征信问题可能影响审批，需提前说明</span>
+                        </div>
+                    </div>
+
+                    <div class="tips-box">
+                        <div class="tips-title">💡 当前建议</div>
+                        <ul id="tipsList">
+                            <li>⚠️ 征信有逾期，需谨慎处理</li>
+                            <li>了解逾期原因和是否已结清</li>
+                            <li>可推荐容忍度较高的产品</li>
+                            <li>无资产情况，推荐信用贷产品</li>
+                            <li>客户等级较低，投入成本需权衡</li>
+                        </ul>
+                    </div>
+
+                    <div class="script-box">
+                        <div class="script-title">
+                            <span>📝 推荐话术</span>
+                            <button class="copy-btn" onclick="copyScript()">复制</button>
+                        </div>
+                        <div class="script-content" id="scriptContent">
+                            "关于征信逾期的问题，我需要了解一下具体情况。请问逾期金额大概多少？现在结清了吗？逾期的原因是什么？"
+                        </div>
+                    </div>
+
+                    <div class="quick-scripts">
+                        <button class="quick-btn" onclick="useQuickScript('询问顾虑')">询问顾虑</button>
+                        <button class="quick-btn" onclick="useQuickScript('询问需求')">询问需求</button>
+                        <button class="quick-btn" onclick="useQuickScript('添加微信')">添加微信</button>
+                        <button class="quick-btn" onclick="useQuickScript('促成话术')">促成话术</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 线索打标 -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">线索打标 <span class="count">(已选 <span id="selectedCount">5</span>/59)</span></div>
+                    <button class="clear-btn" onclick="clearAll()">清空</button>
+                </div>
+
+                <div class="tag-group">
+                    <div class="tag-group-title">用户等级</div>
+                    <div id="userLevel">
+                        <span class="tag" onclick="toggleTag(this, 'userLevel')">S级</span>
+                        <span class="tag" onclick="toggleTag(this, 'userLevel')">A级</span>
+                        <span class="tag" onclick="toggleTag(this, 'userLevel')">B级</span>
+                        <span class="tag" onclick="toggleTag(this, 'userLevel')">C级</span>
+                        <span class="tag" onclick="toggleTag(this, 'userLevel')">D级</span>
+                        <span class="tag selected" onclick="toggleTag(this, 'userLevel')">E级</span>
+                        <span class="tag" onclick="toggleTag(this, 'userLevel')">等级未确定</span>
+                    </div>
+                </div>
+
+                <div class="tag-group">
+                    <div class="tag-group-title">意愿标签</div>
+                    <div id="intention">
+                        <span class="tag" onclick="toggleTag(this, 'intention')">有意向</span>
+                        <span class="tag" onclick="toggleTag(this, 'intention')">无意向-开场日秒挂</span>
+                        <span class="tag" onclick="toggleTag(this, 'intention')">无意向-未申请</span>
+                        <span class="tag" onclick="toggleTag(this, 'intention')">无意向-不需要</span>
+                        <span class="tag selected" onclick="toggleTag(this, 'intention')">无意向-其他</span>
+                        <span class="tag" onclick="toggleTag(this, 'intention')">未接通-停机</span>
+                        <span class="tag" onclick="toggleTag(this, 'intention')">未接通</span>
+                        <span class="tag" onclick="toggleTag(this, 'intention')">无意向-不接受线下</span>
+                    </div>
+                </div>
+
+                <div class="tag-group">
+                    <div class="tag-group-title">房产标签</div>
+                    <div id="property">
+                        <span class="tag" onclick="toggleTag(this, 'property')">全款房</span>
+                        <span class="tag" onclick="toggleTag(this, 'property')">按揭房</span>
+                        <span class="tag" onclick="toggleTag(this, 'property')">抵押房</span>
+                        <span class="tag" onclick="toggleTag(this, 'property')">政策房</span>
+                        <span class="tag" onclick="toggleTag(this, 'property')">商业房</span>
+                        <span class="tag" onclick="toggleTag(this, 'property')">异地房</span>
+                        <span class="tag" onclick="toggleTag(this, 'property')">自建房</span>
+                        <span class="tag selected" onclick="toggleTag(this, 'property')">无房</span>
+                        <span class="tag" onclick="toggleTag(this, 'property')">房产未确认</span>
+                    </div>
+                </div>
+
+                <div class="tag-group">
+                    <div class="tag-group-title">车产标签</div>
+                    <div id="vehicle">
+                        <span class="tag" onclick="toggleTag(this, 'vehicle')">全款车</span>
+                        <span class="tag" onclick="toggleTag(this, 'vehicle')">按揭车</span>
+                        <span class="tag" onclick="toggleTag(this, 'vehicle')">抵押车</span>
+                        <span class="tag" onclick="toggleTag(this, 'vehicle')">背户车</span>
+                        <span class="tag" onclick="toggleTag(this, 'vehicle')">异地车</span>
+                        <span class="tag selected" onclick="toggleTag(this, 'vehicle')">无车</span>
+                        <span class="tag" onclick="toggleTag(this, 'vehicle')">车产未确认</span>
+                    </div>
+                </div>
+
+                <div class="tag-group">
+                    <div class="tag-group-title">征信标签</div>
+                    <div id="credit">
+                        <span class="tag" onclick="toggleTag(this, 'credit')">无逾期</span>
+                        <span class="tag selected" onclick="toggleTag(this, 'credit')">当前逾期</span>
+                        <span class="tag" onclick="toggleTag(this, 'credit')">逾期少</span>
+                        <span class="tag" onclick="toggleTag(this, 'credit')">逾期多</span>
+                        <span class="tag" onclick="toggleTag(this, 'credit')">黑户&呆账</span>
+                        <span class="tag" onclick="toggleTag(this, 'credit')">查询多</span>
+                        <span class="tag" onclick="toggleTag(this, 'credit')">征信未确认</span>
+                    </div>
+                </div>
+
+                <div class="tag-group">
+                    <div class="tag-group-title">职业标签</div>
+                    <div id="occupation">
+                        <span class="tag" onclick="toggleTag(this, 'occupation')">企业主</span>
+                        <span class="tag" onclick="toggleTag(this, 'occupation')">个体户</span>
+                        <span class="tag" onclick="toggleTag(this, 'occupation')">其他</span>
+                        <span class="tag" onclick="toggleTag(this, 'occupation')">上班族-有公积金或有个税</span>
+                        <span class="tag" onclick="toggleTag(this, 'occupation')">上班族-无公积金无个税</span>
+                        <span class="tag" onclick="toggleTag(this, 'occupation')">无业</span>
+                        <span class="tag" onclick="toggleTag(this, 'occupation')">职业未确认</span>
+                    </div>
+                </div>
+
+                <div class="tag-group">
+                    <div class="tag-group-title">加微标签</div>
+                    <div id="wechat">
+                        <span class="tag" onclick="toggleTag(this, 'wechat')">已加微</span>
+                        <span class="tag" onclick="toggleTag(this, 'wechat')">未加微</span>
+                    </div>
+                </div>
+
+                <div class="tag-group">
+                    <div class="tag-group-title">其他标签</div>
+                    <div id="other">
+                        <span class="tag" onclick="toggleTag(this, 'other')">无</span>
+                        <span class="tag" onclick="toggleTag(this, 'other')">独自借款</span>
+                        <span class="tag" onclick="toggleTag(this, 'other')">有诉讼</span>
+                        <span class="tag" onclick="toggleTag(this, 'other')">贷款不符</span>
+                        <span class="tag" onclick="toggleTag(this, 'other')">异地客户</span>
+                        <span class="tag" onclick="toggleTag(this, 'other')">重点客户</span>
+                        <span class="tag" onclick="toggleTag(this, 'other')">MGM/亲属办理</span>
+                        <span class="tag" onclick="toggleTag(this, 'other')">不接受线下</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 跟进记录 -->
+            <div class="card">
+                <div class="card-title">* 跟进记录:</div>
+                <textarea class="textarea" placeholder="请输入详细跟进情况" maxlength="500"></textarea>
+            </div>
+        </div>
+
+        <div class="modal-footer">
+            <button class="btn">取消</button>
+            <button class="btn btn-primary">确认保存</button>
+        </div>
+    </div>
+
+    <script>
+        // 话术库
+        const scripts = {
+            'E级-无意向-无房-无车-当前逾期': {
+                tips: [
+                    '⚠️ 征信有逾期，需谨慎处理',
+                    '了解逾期原因和是否已结清',
+                    '可推荐容忍度较高的产品',
+                    '无资产情况，推荐信用贷产品',
+                    '客户等级较低，投入成本需权衡'
+                ],
+                script: '"关于征信逾期的问题，我需要了解一下具体情况。请问逾期金额大概多少？现在结清了吗？逾期的原因是什么？"',
+                warning: '征信问题可能影响审批，需提前说明'
+            },
+            'S级-有意向-全款房-无逾期': {
+                tips: [
+                    '⭐ 优质客户，重点跟进',
+                    '提供VIP级别服务',
+                    '有房产，可推荐房产抵押贷',
+                    '询问房产价值和贷款额度需求',
+                    '客户有意向，抓紧推进'
+                ],
+                script: '"太好了！那我详细给您介绍一下我们的方案。请问您这边大概需要多少资金？什么时候用？"',
+                warning: null
+            },
+            'default': {
+                tips: ['继续收集客户信息', '了解客户真实需求'],
+                script: '"您好，请问您这边是有资金需求吗？方便了解下您的具体情况吗？"',
+                warning: null
+            }
+        };
+
+        const quickScripts = {
+            '询问顾虑': '方便了解下您主要顾虑是什么吗？',
+            '询问需求': '您这边大概需要多少资金？什么时候用？',
+            '添加微信': '加个微信吧，我把详细资料发给您',
+            '促成话术': '我这边给您申请最优惠的方案，您看可以吗？'
+        };
+
+        function toggleTag(element, category) {
+            // 如果是单选类别（用户等级、加微标签）
+            if (category === 'userLevel' || category === 'wechat') {
+                document.querySelectorAll(`#${category} .tag`).forEach(tag => {
+                    tag.classList.remove('selected');
+                });
+            }
+
+            element.classList.toggle('selected');
+            updateRecommendation();
+            updateSelectedCount();
+            updateSelectedTagsDisplay();
+        }
+
+        function updateRecommendation() {
+            const selected = getSelectedTags();
+            const key = selected.join('-');
+
+            let recommendation = scripts[key] || scripts['default'];
+
+            // 更新提示
+            const tipsList = document.getElementById('tipsList');
+            tipsList.innerHTML = recommendation.tips.map(tip => `<li>${tip}</li>`).join('');
+
+            // 更新话术
+            document.getElementById('scriptContent').textContent = recommendation.script;
+
+            // 更新警告
+            const warningBox = document.getElementById('warningBox');
+            if (recommendation.warning) {
+                warningBox.style.display = 'block';
+                document.getElementById('warningText').textContent = recommendation.warning;
+            } else {
+                warningBox.style.display = 'none';
+            }
+        }
+
+        function getSelectedTags() {
+            const tags = [];
+            document.querySelectorAll('.tag.selected').forEach(tag => {
+                tags.push(tag.textContent);
+            });
+            return tags;
+        }
+
+        function updateSelectedCount() {
+            const count = document.querySelectorAll('.tag.selected').length;
+            document.getElementById('selectedCount').textContent = count;
+        }
+
+        function updateSelectedTagsDisplay() {
+            const selected = getSelectedTags();
+            const display = document.getElementById('selectedTagsDisplay');
+            display.innerHTML = selected.map(tag => `<span class="tag selected">${tag}</span>`).join('');
+        }
+
+        function clearAll() {
+            document.querySelectorAll('.tag.selected').forEach(tag => {
+                tag.classList.remove('selected');
+            });
+            updateRecommendation();
+            updateSelectedCount();
+            updateSelectedTagsDisplay();
+        }
+
+        function toggleAssistant() {
+            const content = document.getElementById('assistantContent');
+            const btn = event.target;
+            if (content.classList.contains('collapsed')) {
+                content.classList.remove('collapsed');
+                btn.textContent = '收起';
+            } else {
+                content.classList.add('collapsed');
+                btn.textContent = '展开';
+            }
+        }
+
+        function copyScript() {
+            const script = document.getElementById('scriptContent').textContent;
+            navigator.clipboard.writeText(script).then(() => {
+                alert('话术已复制！');
+            });
+        }
+
+        function useQuickScript(type) {
+            const script = quickScripts[type];
+            alert(`已复制快捷话术：\n${script}`);
+            navigator.clipboard.writeText(script);
+        }
+
+        // 初始化
+        updateSelectedCount();
+        updateRecommendation();
+    </script>
+</body>
+</html>

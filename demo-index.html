@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRM销售策略和话术推荐系统 - 演示入口</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            width: 100%;
+        }
+
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 48px;
+        }
+
+        .header h1 {
+            font-size: 36px;
+            margin-bottom: 16px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .header p {
+            font-size: 18px;
+            opacity: 0.9;
+        }
+
+        .demos {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 32px;
+            margin-bottom: 32px;
+        }
+
+        .demo-card {
+            background: white;
+            border-radius: 16px;
+            padding: 32px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+            transition: transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+        }
+
+        .demo-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 32px rgba(0,0,0,0.2);
+        }
+
+        .demo-icon {
+            font-size: 48px;
+            margin-bottom: 16px;
+        }
+
+        .demo-title {
+            font-size: 24px;
+            font-weight: 600;
+            color: #262626;
+            margin-bottom: 12px;
+        }
+
+        .demo-desc {
+            font-size: 14px;
+            color: #8c8c8c;
+            line-height: 1.6;
+            margin-bottom: 24px;
+        }
+
+        .demo-features {
+            list-style: none;
+            margin-bottom: 24px;
+        }
+
+        .demo-features li {
+            padding: 8px 0;
+            color: #595959;
+            font-size: 14px;
+            position: relative;
+            padding-left: 24px;
+        }
+
+        .demo-features li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #52c41a;
+            font-weight: bold;
+        }
+
+        .demo-btn {
+            width: 100%;
+            padding: 12px 24px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: opacity 0.3s;
+        }
+
+        .demo-btn:hover {
+            opacity: 0.9;
+        }
+
+        .info-section {
+            background: rgba(255,255,255,0.95);
+            border-radius: 16px;
+            padding: 32px;
+            margin-bottom: 32px;
+        }
+
+        .info-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #262626;
+            margin-bottom: 16px;
+        }
+
+        .info-content {
+            font-size: 14px;
+            color: #595959;
+            line-height: 1.8;
+        }
+
+        .highlight-box {
+            background: #f0f5ff;
+            border-left: 4px solid #1890ff;
+            padding: 16px;
+            border-radius: 4px;
+            margin: 16px 0;
+        }
+
+        .highlight-box strong {
+            color: #1890ff;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 16px;
+            margin-top: 24px;
+        }
+
+        .feature-item {
+            background: #fafafa;
+            padding: 16px;
+            border-radius: 8px;
+            border: 1px solid #e8e8e8;
+        }
+
+        .feature-item h4 {
+            color: #262626;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        .feature-item p {
+            color: #8c8c8c;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        .footer {
+            text-align: center;
+            color: white;
+            opacity: 0.8;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🤖 CRM销售策略和话术推荐系统</h1>
+            <p>基于AI的智能销售辅助工具 - 提升沟通效率，提高成交率</p>
+        </div>
+
+        <div class="demos">
+            <!-- 演示1：客户详情页 -->
+            <div class="demo-card" onclick="openDemo('demo-detail-page.html')">
+                <div class="demo-icon">📋</div>
+                <div class="demo-title">客户详情页</div>
+                <div class="demo-desc">
+                    通话前准备：查看完整的客户分析、策略推荐和话术建议
+                </div>
+                <ul class="demo-features">
+                    <li>右侧智能助手面板（380px宽）</li>
+                    <li>客户画像分析（风险、概率、痛点）</li>
+                    <li>完整的销售策略推荐</li>
+                    <li>4类话术（开场、异议、价值、促成）</li>
+                    <li>产品智能匹配推荐</li>
+                    <li>一键复制话术功能</li>
+                </ul>
+                <button class="demo-btn">查看演示 →</button>
+            </div>
+
+            <!-- 演示2：标签编辑页 -->
+            <div class="demo-card" onclick="openDemo('demo-tag-edit-page.html')">
+                <div class="demo-icon">✏️</div>
+                <div class="demo-title">跟进编辑弹窗</div>
+                <div class="demo-desc">
+                    通话中实时指导：根据标签选择实时更新话术推荐
+                </div>
+                <ul class="demo-features">
+                    <li>顶部实时话术助手（紫色渐变）</li>
+                    <li>标签选择即时更新推荐</li>
+                    <li>智能警告提示（高风险标签）</li>
+                    <li>快捷话术按钮</li>
+                    <li>已选标签实时显示</li>
+                    <li>交互式标签选择器</li>
+                </ul>
+                <button class="demo-btn">查看演示 →</button>
+            </div>
+        </div>
+
+        <div class="info-section">
+            <div class="info-title">💡 功能亮点</div>
+            <div class="info-content">
+                <div class="highlight-box">
+                    <strong>智能分析引擎：</strong>基于9个维度（意愿、资产、征信、职业、等级等）综合评估客户，自动计算成交概率和风险等级
+                </div>
+
+                <div class="features-grid">
+                    <div class="feature-item">
+                        <h4>🎯 精准推荐</h4>
+                        <p>根据客户画像匹配最合适的沟通策略和话术模板</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4>⚡ 实时响应</h4>
+                        <p>标签选择后立即更新推荐，响应时间<100ms</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4>📝 话术库</h4>
+                        <p>涵盖开场白、异议处理、价值主张、促成等场景</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4>🔄 动态调整</h4>
+                        <p>根据不同标签组合智能调整推荐内容</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="info-section">
+            <div class="info-title">📊 使用场景</div>
+            <div class="info-content">
+                <div style="display: grid; gap: 16px;">
+                    <div class="feature-item">
+                        <h4>场景1：通话前准备</h4>
+                        <p>打开<strong>客户详情页</strong>，查看完整的客户分析和话术建议，做好充分准备后再拨打电话</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4>场景2：通话中实时指导</h4>
+                        <p>使用<strong>跟进编辑弹窗</strong>，边沟通边打标签，系统实时提供针对性话术支持</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4>场景3：新人培训</h4>
+                        <p>展示不同标签组合的推荐变化，帮助新人快速掌握销售技巧和话术</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="info-section">
+            <div class="info-title">🚀 技术说明</div>
+            <div class="info-content">
+                <p style="margin-bottom: 12px;"><strong>技术栈：</strong>React 18 + TypeScript + Ant Design 5</p>
+                <p style="margin-bottom: 12px;"><strong>特点：</strong>纯前端实现，无需后端，可直接在浏览器中运行</p>
+                <p style="margin-bottom: 12px;"><strong>兼容性：</strong>支持 Chrome、Firefox、Safari、Edge 等现代浏览器</p>
+
+                <div class="highlight-box" style="margin-top: 16px;">
+                    <strong>💻 本地运行完整版：</strong><br>
+                    1. 下载项目代码<br>
+                    2. 执行 <code>npm install</code><br>
+                    3. 执行 <code>npm run dev</code><br>
+                    4. 访问 <code>http://localhost:3000</code>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>© 2025 CRM销售策略和话术推荐系统 - 静态演示版</p>
+            <p style="margin-top: 8px;">完整功能请参考 README.md 和 DESIGN.md 文档</p>
+        </div>
+    </div>
+
+    <script>
+        function openDemo(url) {
+            window.open(url, '_blank');
+        }
+    </script>
+</body>
+</html>

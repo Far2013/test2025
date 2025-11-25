@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRM客户详情页 - 智能销售助手演示</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+            background: #f0f2f5;
+            padding: 20px;
+        }
+
+        .container {
+            display: flex;
+            gap: 16px;
+            max-width: 1600px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .main-content {
+            flex: 1;
+            padding: 24px;
+            overflow-y: auto;
+            max-height: 100vh;
+        }
+
+        .sidebar {
+            width: 380px;
+            background: #f5f5f5;
+            padding: 16px;
+            overflow-y: auto;
+            max-height: 100vh;
+            border-left: 1px solid #e8e8e8;
+        }
+
+        .card {
+            background: white;
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 16px;
+            border: 1px solid #e8e8e8;
+        }
+
+        .card-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: #262626;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .tag {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 4px;
+            font-size: 12px;
+            margin: 4px 4px 4px 0;
+        }
+
+        .tag-blue { background: #e6f7ff; color: #1890ff; border: 1px solid #91d5ff; }
+        .tag-red { background: #fff1f0; color: #f5222d; border: 1px solid #ffa39e; }
+        .tag-orange { background: #fff7e6; color: #fa8c16; border: 1px solid #ffd591; }
+        .tag-green { background: #f6ffed; color: #52c41a; border: 1px solid #b7eb8f; }
+        .tag-purple { background: #f9f0ff; color: #722ed1; border: 1px solid #d3adf7; }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .header h2 {
+            font-size: 20px;
+            color: #262626;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #f0f0f0;
+            border-radius: 4px;
+            overflow: hidden;
+            margin: 8px 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            transition: width 0.3s;
+        }
+
+        .progress-success { background: #52c41a; }
+        .progress-warning { background: #faad14; }
+        .progress-error { background: #ff4d4f; }
+
+        .script-box {
+            background: #f0f5ff;
+            padding: 12px;
+            border-radius: 4px;
+            margin: 8px 0;
+            border-left: 3px solid #1890ff;
+            position: relative;
+        }
+
+        .script-box.warning { background: #fff7e6; border-left-color: #faad14; }
+        .script-box.success { background: #f6ffed; border-left-color: #52c41a; }
+        .script-box.danger { background: #fff1f0; border-left-color: #ff4d4f; }
+
+        .copy-btn {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            padding: 4px 12px;
+            background: white;
+            border: 1px solid #d9d9d9;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: all 0.3s;
+        }
+
+        .copy-btn:hover {
+            color: #1890ff;
+            border-color: #1890ff;
+        }
+
+        .assistant-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 12px;
+            border-radius: 8px;
+            text-align: center;
+            margin-bottom: 16px;
+            font-weight: 600;
+        }
+
+        .section {
+            margin-bottom: 20px;
+        }
+
+        .section-title {
+            font-size: 14px;
+            color: #8c8c8c;
+            margin-bottom: 8px;
+        }
+
+        ul {
+            list-style: none;
+            padding-left: 20px;
+        }
+
+        ul li {
+            position: relative;
+            padding: 4px 0;
+            color: #262626;
+        }
+
+        ul li:before {
+            content: "•";
+            position: absolute;
+            left: -15px;
+            color: #1890ff;
+        }
+
+        .timeline {
+            border-left: 2px solid #e8e8e8;
+            padding-left: 16px;
+            margin-left: 8px;
+        }
+
+        .timeline-item {
+            position: relative;
+            padding-bottom: 16px;
+        }
+
+        .timeline-item:before {
+            content: "";
+            position: absolute;
+            left: -20px;
+            top: 4px;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #1890ff;
+            border: 2px solid white;
+        }
+
+        .match-score {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 8px 0;
+        }
+
+        .product-card {
+            background: #e6f7ff;
+            border: 1px solid #1890ff;
+            padding: 12px;
+            border-radius: 8px;
+            margin: 8px 0;
+        }
+
+        .icon {
+            font-size: 18px;
+            margin-right: 4px;
+        }
+
+        .divider {
+            height: 1px;
+            background: #e8e8e8;
+            margin: 12px 0;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin: 12px 0;
+        }
+
+        .stat-item {
+            padding: 8px;
+            background: #fafafa;
+            border-radius: 4px;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: #8c8c8c;
+            margin-bottom: 4px;
+        }
+
+        .stat-value {
+            font-size: 16px;
+            font-weight: 600;
+            color: #262626;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 左侧主内容 -->
+        <div class="main-content">
+            <div class="header">
+                <div>
+                    <h2>线索详情 C6636159627957370881</h2>
+                </div>
+                <div>
+                    <span class="tag tag-blue">手动回填/正常分配</span>
+                    <span class="tag tag-red">AI无兴趣未接通</span>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="header">
+                    <h2>黄光塔 UR240800251scno</h2>
+                    <span class="tag tag-purple">E级</span>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-title">跟进信息</div>
+                <div class="section">
+                    <div class="section-title">最近跟进: 2025-10-15 16:24:04</div>
+                    <div style="margin-top: 12px;">
+                        <strong>跟进标签:</strong><br>
+                        <span class="tag tag-purple">E级</span>
+                        <span class="tag tag-orange">无意向-其他</span>
+                        <span class="tag tag-blue">无房</span>
+                        <span class="tag tag-blue">无车</span>
+                        <span class="tag tag-red">无逾期</span>
+                        <span class="tag tag-green">上班族-无公积金无个税</span>
+                        <span class="tag tag-green">已加微</span>
+                        <span class="tag">贷款不符</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-title">🤖 AI图像总结 <span style="font-size: 12px; margin-left: 8px;">👍 赞 👎 踩</span></div>
+
+                <div class="stats">
+                    <div class="stat-item">
+                        <div class="stat-label">线索价值</div>
+                        <div class="stat-value">5</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-label">用户等级</div>
+                        <div class="stat-value">E级</div>
+                    </div>
+                </div>
+
+                <div class="divider"></div>
+
+                <div class="section">
+                    <strong>资产情况:</strong> 无房区商品房（个人名下、全款）、有房产权证（知情人要妻子）、无车产、广西老家自建有房产（归属本人）
+                </div>
+
+                <div class="section">
+                    <strong>负债情况:</strong> 无贷款、无网贷或小贷负债，逾期记录已还清
+                </div>
+
+                <div class="section">
+                    <strong>征信情况:</strong> 两三个月逾期，几千前；近一年有网贷APP出额度记录
+                </div>
+
+                <div class="section">
+                    <strong>沟通情况:</strong> 6月26日咨询产品弄无"中介房贷金额"实明朝"房产商主方"、8月7日产品类型从"天无房为天使房型为"改为"明天本人大人"变为"归属本人"
+                </div>
+
+                <div class="section">
+                    <strong>贷款要求:</strong> 资金需求20-30万，下个月使用房产贷；用意变爱，需明日或收明或办理
+                </div>
+
+                <div class="section">
+                    <strong>客户敏感点:</strong> 担心对方是骗子；听不清重复报告被拒；担心贷款App额度真实性；需要人签和征信报告查询感到真实性；担心征信查询过多影响贷款
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-title">沟通记录</div>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div style="color: #8c8c8c; font-size: 12px;">2025-10-15 16:24:04</div>
+                        <div style="margin-top: 4px;">现金收入，三无客户</div>
+                    </div>
+                    <div class="timeline-item">
+                        <div style="color: #8c8c8c; font-size: 12px;">2025-10-14</div>
+                        <div style="margin-top: 4px;">多次沟通贷款需求，客户犹豫中</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 右侧智能助手 -->
+        <div class="sidebar">
+            <div class="assistant-header">
+                <span class="icon">🤖</span> AI智能销售助手
+            </div>
+
+            <div class="card">
+                <div class="card-title">📊 客户画像分析</div>
+
+                <div class="section">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <span>风险等级:</span>
+                        <span class="tag tag-red">高风险</span>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <div style="margin-bottom: 4px;">成交概率: <strong>35%</strong></div>
+                    <div class="progress-bar">
+                        <div class="progress-fill progress-error" style="width: 35%;"></div>
+                    </div>
+                </div>
+
+                <div class="divider"></div>
+
+                <div class="section">
+                    <strong style="color: #f5222d;">关键痛点:</strong>
+                    <div style="margin-top: 8px;">
+                        <span class="tag tag-red">⚠️ 客户意愿低</span>
+                        <span class="tag tag-red">⚠️ 征信有逾期记录</span>
+                        <span class="tag tag-red">⚠️ 无抵押资产</span>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <strong style="color: #52c41a;">客户优势:</strong>
+                    <div style="margin-top: 8px;">
+                        <span class="tag tag-green">✓ 已建立微信联系</span>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <strong style="color: #fa8c16;">劣势因素:</strong>
+                    <div style="margin-top: 8px;">
+                        <span class="tag tag-orange">无抵押资产</span>
+                        <span class="tag tag-orange">沟通意愿不强</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-title">💡 推荐策略 <span class="tag tag-red" style="margin-left: 8px;">高优先级</span></div>
+
+                <div class="section">
+                    <strong>核心策略:</strong>
+                    <ul>
+                        <li>采用顾问式销售，先建立信任</li>
+                        <li>深挖客户真实需求和顾虑</li>
+                        <li>推荐信用类产品</li>
+                    </ul>
+                </div>
+
+                <div class="section">
+                    <strong>关键要点:</strong>
+                    <ul>
+                        <li style="color: #f5222d;">不要急于推销产品</li>
+                        <li style="color: #f5222d;">多提问，少陈述</li>
+                        <li style="color: #f5222d;">了解逾期原因和金额</li>
+                    </ul>
+                </div>
+
+                <div class="section">
+                    <strong>风险提示:</strong>
+                    <ul>
+                        <li style="color: #ff4d4f;">征信问题可能导致审批不通过</li>
+                        <li style="color: #ff4d4f;">成交概率低，投入成本需控制</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-title">💬 话术推荐</div>
+
+                <div class="section">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                        <strong>📞 开场白</strong>
+                        <span class="tag tag-blue">必备</span>
+                    </div>
+                    <div class="script-box">
+                        <button class="copy-btn" onclick="copyText(this)">复制</button>
+                        "黄先生您好，我是XX金融的小王。看到您之前咨询过贷款相关的信息，想了解下您现在还有资金需求吗？"
+                    </div>
+                    <div style="margin-top: 8px;">
+                        <span class="tag" style="font-size: 11px;">无意向</span>
+                        <span class="tag" style="font-size: 11px;">初次回访</span>
+                    </div>
+                </div>
+
+                <div class="divider"></div>
+
+                <div class="section">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                        <strong>🛡️ 异议处理</strong>
+                        <span class="tag tag-orange">重要</span>
+                    </div>
+                    <div class="script-box warning">
+                        <button class="copy-btn" onclick="copyText(this)">复制</button>
+                        "关于征信逾期的问题，我们这边其实有专门针对这种情况的产品。很多客户也是因为一时周转不开才逾期的，我们理解。关键是现在逾期结清了吗？金额大概多少？"
+                    </div>
+                    <div style="margin-top: 8px;">
+                        <span class="tag" style="font-size: 11px;">征信逾期</span>
+                    </div>
+                </div>
+
+                <div class="divider"></div>
+
+                <div class="section">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                        <strong>💎 价值主张</strong>
+                    </div>
+                    <div class="script-box success">
+                        <button class="copy-btn" onclick="copyText(this)">复制</button>
+                        "我们这边最快当天就能出审批结果，通过后1-3个工作日就能放款。如果您急用的话，我们可以帮您走快速通道。"
+                    </div>
+                    <div style="margin-top: 8px;">
+                        <span class="tag" style="font-size: 11px;">速度优势</span>
+                    </div>
+                </div>
+
+                <div class="divider"></div>
+
+                <div class="section">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                        <strong>🎯 促成话术</strong>
+                        <span class="tag tag-red">关键</span>
+                    </div>
+                    <div class="script-box danger">
+                        <button class="copy-btn" onclick="copyText(this)">复制</button>
+                        "那您看这样，我现在就帮您提交预审，今天就能知道结果。您这边准备一下身份证和银行卡，我们尽快帮您办理，好吗？"
+                    </div>
+                    <div style="margin-top: 8px;">
+                        <span class="tag" style="font-size: 11px;">假设成交法</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-title">🎯 推荐产品</div>
+
+                <div class="product-card">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                        <strong>征信容忍产品</strong>
+                        <span class="tag" style="background: gold; color: #8c5e00; border-color: #ffc53d;">最匹配</span>
+                    </div>
+                    <div class="match-score">
+                        <span style="font-size: 12px;">匹配度</span>
+                        <span style="font-size: 14px; font-weight: 600;">60%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill progress-success" style="width: 60%;"></div>
+                    </div>
+                    <div style="margin-top: 8px; font-size: 12px; color: #8c8c8c;">
+                        客户征信有瑕疵，推荐容忍度较高的产品
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function copyText(btn) {
+            const text = btn.parentElement.textContent.replace('复制', '').trim();
+            navigator.clipboard.writeText(text).then(() => {
+                const originalText = btn.textContent;
+                btn.textContent = '已复制!';
+                btn.style.background = '#52c41a';
+                btn.style.color = 'white';
+                btn.style.borderColor = '#52c41a';
+                setTimeout(() => {
+                    btn.textContent = originalText;
+                    btn.style.background = 'white';
+                    btn.style.color = '';
+                    btn.style.borderColor = '#d9d9d9';
+                }, 2000);
+            });
+        }
+    </script>
+</body>
+</html>
